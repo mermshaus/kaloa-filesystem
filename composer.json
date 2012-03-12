@@ -1,8 +1,8 @@
 {
     "name": "kaloa/filesystem",
     "type": "library",
-    "description": "Useful classes to work with the filesystem",
-    "keywords": ["tags"],
+    "description": "Useful classes for working with the filesystem",
+    "keywords": ["filesystem"],
     "homepage": "http://www.kaloa.org/",
     "version": "0.0.1",
     "license": "MIT",
