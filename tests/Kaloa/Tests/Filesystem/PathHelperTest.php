@@ -1,14 +1,15 @@
 <?php
 
-namespace Kaloa\UnitTest;
+namespace Kaloa\Tests;
 
 use PHPUnit_Framework_TestCase;
+use Kaloa\Filesystem\PathHelper;
 
 class PathHelperTest extends PHPUnit_Framework_TestCase
 {
     public function testNormalize()
     {
-        $ph = new \Kaloa\Filesystem\PathHelper();
+        $ph = new PathHelper();
 
         $f = function ($s) use ($ph) {
             return $ph->normalize($s);
@@ -60,7 +61,7 @@ class PathHelperTest extends PHPUnit_Framework_TestCase
 
     public function testNormalize_Additional()
     {
-        $ph = new \Kaloa\Filesystem\PathHelper();
+        $ph = new PathHelper();
 
         $f = function ($s) use ($ph) {
             return $ph->normalize($s);
