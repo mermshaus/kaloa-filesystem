@@ -4,7 +4,6 @@
     "description": "Useful classes for working with the filesystem",
     "keywords": ["filesystem"],
     "homepage": "http://www.kaloa.org/",
-    "version": "0.0.1",
     "license": "MIT",
     "authors": [
         {
