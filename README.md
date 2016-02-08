@@ -1,4 +1,4 @@
-Kaloa Component Library for PHP -- Filesystem
+# Kaloa Component Library for PHP -- Filesystem
 
 The software is published under the MIT License (see LICENSE).
 
