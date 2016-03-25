@@ -11,8 +11,17 @@ namespace Kaloa\Filesystem;
 
 use InvalidArgumentException;
 
+/**
+ *
+ */
 final class PathHelper
 {
+    /**
+     *
+     * @param string $path
+     * @return string
+     * @throws InvalidArgumentException
+     */
     public function normalizeDirectorySeparators($path)
     {
         if (!is_string($path)) {
@@ -21,8 +30,11 @@ final class PathHelper
 
         $directorySeparatorInverse = (DIRECTORY_SEPARATOR === '/') ? '\\' : '/';
 
-        return str_replace($directorySeparatorInverse, DIRECTORY_SEPARATOR,
-                $path);
+        return str_replace(
+            $directorySeparatorInverse,
+            DIRECTORY_SEPARATOR,
+            $path
+        );
     }
 
     /**

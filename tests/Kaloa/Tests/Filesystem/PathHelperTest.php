@@ -12,8 +12,14 @@ namespace Kaloa\Tests;
 use Kaloa\Filesystem\PathHelper;
 use PHPUnit_Framework_TestCase;
 
+/**
+ *
+ */
 class PathHelperTest extends PHPUnit_Framework_TestCase
 {
+    /**
+     *
+     */
     public function testNormalize()
     {
         $ph = new PathHelper();
@@ -66,7 +72,10 @@ class PathHelperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('/',          $f('  \\.\\dir1\\.\\dir2\\\\\\..\\..\\..\\\\\\ '));
     }
 
-    public function testNormalize_Additional()
+    /**
+     *
+     */
+    public function testNormalizeAdditional()
     {
         $ph = new PathHelper();
 
@@ -75,5 +84,27 @@ class PathHelperTest extends PHPUnit_Framework_TestCase
         };
 
         $this->assertEquals('dir1', $f($f('./dir1/.//') . '/' . $f('dir2/../dir3//dir4/.././/..')));
+    }
+
+    /**
+     *
+     */
+    public function testNormalizeThrowsException()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+
+        $ph = new PathHelper();
+        $ph->normalize(42);
+    }
+
+    /**
+     *
+     */
+    public function testNormalizeDirectorySeparatorsThrowsException()
+    {
+        $this->setExpectedException('InvalidArgumentException');
+
+        $ph = new PathHelper();
+        $ph->normalizeDirectorySeparators(42);
     }
 }
