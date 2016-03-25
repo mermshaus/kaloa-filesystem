@@ -1,9 +1,17 @@
 <?php
 
+/*
+ * This file is part of the kaloa/filesystem package.
+ *
+ * For full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
+ */
+
 namespace Kaloa\Filesystem;
 
 use FilterIterator;
 use Iterator;
+use SplFileInfo;
 
 /**
  * Example:
@@ -24,14 +32,14 @@ use Iterator;
  *
  * @author Marc Ermshaus <marc@ermshaus.org>
  */
-class ExtensionFilter extends FilterIterator
+final class ExtensionFilter extends FilterIterator
 {
     /**
      * List of allowed file extensions
      *
      * @var array
      */
-    protected $whitelist;
+    private $whitelist;
 
     /**
      *

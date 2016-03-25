@@ -1,12 +1,19 @@
 <?php
 
+/*
+ * This file is part of the kaloa/filesystem package.
+ *
+ * For full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
+ */
+
 namespace Kaloa\Filesystem;
 
 use FilterIterator;
 use Iterator;
 use SplFileInfo;
 
-class MimeTypeFilter extends FilterIterator
+final class MimeTypeFilter extends FilterIterator
 {
     /**
      * List of allowed file extensions

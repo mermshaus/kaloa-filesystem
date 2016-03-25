@@ -1,9 +1,16 @@
 <?php
 
+/*
+ * This file is part of the kaloa/filesystem package.
+ *
+ * For full copyright and license information, please view the LICENSE file
+ * that was distributed with this source code.
+ */
+
 namespace Kaloa\Tests;
 
-use PHPUnit_Framework_TestCase;
 use Kaloa\Filesystem\PathHelper;
+use PHPUnit_Framework_TestCase;
 
 class PathHelperTest extends PHPUnit_Framework_TestCase
 {
