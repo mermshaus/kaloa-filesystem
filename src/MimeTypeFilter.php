@@ -13,14 +13,17 @@ use FilterIterator;
 use Iterator;
 use SplFileInfo;
 
+/**
+ *
+ */
 final class MimeTypeFilter extends FilterIterator
 {
     /**
-     * List of allowed file extensions
+     * List of allowed MIME types
      *
      * @var array
      */
-    protected $whitelist;
+    private $whitelist;
 
     /**
      *
@@ -30,7 +33,10 @@ final class MimeTypeFilter extends FilterIterator
     public function __construct(Iterator $iterator, array $whitelist)
     {
         parent::__construct($iterator);
-        $this->whitelist = $whitelist;
+
+        // Reformat array to simplify lookup
+
+        $this->whitelist = array_flip($whitelist);
     }
 
     /**
@@ -47,15 +53,11 @@ final class MimeTypeFilter extends FilterIterator
             return false;
         }
 
-        $finfo = finfo_open(\FILEINFO_MIME_TYPE);
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $type = finfo_file($finfo, $fileInfo->getPathname());
         finfo_close($finfo);
 
         // Only allow MIME types from $whitelist
-        if (!in_array($type, $this->whitelist)) {
-            return false;
-        }
-
-        return true;
+        return (isset($this->whitelist[$type]));
     }
 }
