@@ -20,7 +20,7 @@ use SplFileInfo;
  * $path      = '/a/directory';
  * $whitelist = array('txt'); // List of file extensions to filter
  *
- * $iterator = new FileExtensionFilterIterator(
+ * $iterator = new ExtensionFilterIterator(
  *                 new RecursiveIteratorIterator(
  *                     new RecursiveDirectoryIterator($path)),
  *                 $whitelist);
@@ -49,7 +49,7 @@ final class ExtensionFilter extends FilterIterator
     public function __construct(Iterator $iterator, array $whitelist)
     {
         parent::__construct($iterator);
-        $this->whitelist = $whitelist;
+        $this->whitelist = array_flip($whitelist);
     }
 
     /**
@@ -67,11 +67,9 @@ final class ExtensionFilter extends FilterIterator
         }
 
         // Only allow file extensions from $whitelist
-        $pi = pathinfo($fileInfo->getFilename());
-        if (!in_array(strtolower($pi['extension']), $this->whitelist)) {
-            return false;
-        }
 
-        return true;
+        $pi = pathinfo($fileInfo->getFilename());
+
+        return (isset($this->whitelist[strtolower($pi['extension'])]));
     }
 }

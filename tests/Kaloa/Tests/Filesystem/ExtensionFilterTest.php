@@ -9,7 +9,7 @@
 
 namespace Kaloa\Tests\Filesystem;
 
-use Kaloa\Filesystem\MimeTypeFilter;
+use Kaloa\Filesystem\ExtensionFilter;
 use PHPUnit_Framework_TestCase;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -17,22 +17,15 @@ use RecursiveIteratorIterator;
 /**
  *
  */
-class MimeTypeFilterTest extends PHPUnit_Framework_TestCase
+class ExtensionFilterTest extends PHPUnit_Framework_TestCase
 {
     public function testFilter()
     {
         $path = __DIR__ . '/test-files';
 
-        $whitelist = array(
-            'text/php',
-            'text/x-php',        // Ubuntu 14.04?
-            'application/php',
-            'application/x-php',
-            'application/x-httpd-php',        // Some Debian versions?
-            'application/x-httpd-php-source'  //
-        );
+        $whitelist = array('php');
 
-        $iterator = new MimeTypeFilter(
+        $iterator = new ExtensionFilter(
             new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator($path)
             ),
@@ -43,11 +36,9 @@ class MimeTypeFilterTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals(1, count($files));
 
-        $whitelist = array(
-            'image/png'
-        );
+        $whitelist = array('png');
 
-        $iterator = new MimeTypeFilter(
+        $iterator = new ExtensionFilter(
             new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator($path)
             ),
