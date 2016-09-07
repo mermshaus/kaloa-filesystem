@@ -109,7 +109,7 @@ For usage with the reader, PHP strings can be converted to streams using the [da
 ~~~ php
 $csvString = <<<'CSV'
 "Col a","Col b"
-"value 1a"
+"value 1a","value 1b"
 "value 2a","value 2b"
 CSV;
 
