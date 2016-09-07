@@ -31,56 +31,93 @@ The following PHP versions are supported:
 
 ## Documentation
 
-### Usage
+### CsvReader
 
-#### CsvReader
+#### Usage
+
+Read all CSV rows from a stream into a numeric array. This is also a general usage example.
 
 ~~~ php
 use Kaloa\Filesystem\CsvReader;
 
-// General usage. Read all CSV rows from a stream into a numeric array.
-
 $stream = fopen(__DIR__ . '/file.csv');
+
 $csvReader = new CsvReader($stream);
 $data = $csvReader->fetchAll();
+
 fclose($stream);
+~~~
 
-// Read all CSV rows from a stream into an associative array.
-// The first row from the input will be used as keys.
+Read all CSV rows from a stream into an associative array. The first row from the input will be used as keys.
 
+~~~ php
 $data = $csvReader->fetchAllAssoc();
+~~~
 
-// If the file doesn't contain a row with keys, keys can be provided
-// manually.
+If the file doesn't contain a row with keys, keys can be provided manually. The first row will be seen as regular data.
 
+~~~ php
 $data = $csvReader->fetchAllAssoc(array('id', 'title', 'date_added'));
+~~~
 
-// There's also a streaming mode available.
+There's also a streaming mode available.
 
+~~~ php
 while ($row = $csvReader->fetch()) {
     // ...
 }
+~~~
 
-// Streaming works with associative arrays, too.
+Streaming works with associative arrays, too. Here, the first call to `fetchAssoc` will transparently read the first two rows from the input to read both the keys and the first data row.
 
+~~~ php
 while ($row = $csvReader->fetchAssoc()) {
     // ...
 }
+~~~
 
-// Respectively:
+Respectively:
 
+~~~ php
 while ($row = $csvReader->fetchAssoc(array('id', 'title', 'date_added'))) {
     // ...
 }
+~~~
 
-// The reader automatically converts all input data to UTF-8. Differing input
-// encodings may be defined in the constructor.
+The reader class is intended to always return UTF-8 data. Differing CSV input encodings will be converted automatically if the input encoding is specified in the constructor.
 
-$csvReader = new CsvReader($iso88591stream, 'ISO-8859-1');
+~~~ php
+$csvReader = new CsvReader($iso88591Stream, 'ISO-8859-1');
+~~~
 
-// The same goes for non-standard delimiter, enclosure and escape characters.
+There’s also support for non-standard delimiter, enclosure and escape characters.
 
+~~~ php
 $csvReader = new CsvReader($stream, 'UTF-8', ':', '|', '%');
+~~~
+
+#### Further notes
+
+- The `fetch` and `fetchAll` methods accept rows with varying numbers of fields. The `fetchAssoc` and `fetchAllAssoc` methods will throw an exception if the number of fields in a row differs from the number of keys.
+- It is not possible to change the names of the keys while iterating over input data with `fetchAssoc`. The reader always uses the keys from the first call to `fetchAssoc`.
+- Calls to different `fetch*` methods must not be mixed. Currently, the code doesn’t prevent this, but it’s very likely that such functionality will be added in a future release.  
+
+#### Recipes
+
+For usage with the reader, PHP strings can be converted to streams using the [data protocol](http://php.net/manual/en/wrappers.data.php).
+
+~~~ php
+$csvString = <<<'CSV'
+"Col a","Col b"
+"value 1a"
+"value 2a","value 2b"
+CSV;
+
+$dataUri = 'data://text/plain;base64,' . base64_encode($csvString);
+
+$stream = fopen($dataUri, 'rb');
+
+$reader = new CsvReader($stream);
 ~~~
 
 
