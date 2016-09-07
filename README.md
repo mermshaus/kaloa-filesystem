@@ -29,6 +29,61 @@ The following PHP versions are supported:
 - HHVM
 
 
+## Documentation
+
+### Usage
+
+#### CsvReader
+
+~~~ php
+use Kaloa\Filesystem\CsvReader;
+
+// General usage. Read all CSV rows from a stream into a numeric array.
+
+$stream = fopen(__DIR__ . '/file.csv');
+$csvReader = new CsvReader($stream);
+$data = $csvReader->fetchAll();
+fclose($stream);
+
+// Read all CSV rows from a stream into an associative array.
+// The first row from the input will be used as keys.
+
+$data = $csvReader->fetchAllAssoc();
+
+// If the file doesn't contain a row with keys, keys can be provided
+// manually.
+
+$data = $csvReader->fetchAllAssoc(array('id', 'title', 'date_added'));
+
+// There's also a streaming mode available.
+
+while ($row = $csvReader->fetch()) {
+    // ...
+}
+
+// Streaming works with associative arrays, too.
+
+while ($row = $csvReader->fetchAssoc()) {
+    // ...
+}
+
+// Respectively:
+
+while ($row = $csvReader->fetchAssoc(array('id', 'title', 'date_added'))) {
+    // ...
+}
+
+// The reader automatically converts all input data to UTF-8. Differing input
+// encodings may be defined in the constructor.
+
+$csvReader = new CsvReader($iso88591stream, 'ISO-8859-1');
+
+// The same goes for non-standard delimiter, enclosure and escape characters.
+
+$csvReader = new CsvReader($stream, 'UTF-8', ':', '|', '%');
+~~~
+
+
 ## Testing
 
 (Tools are not included in this package.)

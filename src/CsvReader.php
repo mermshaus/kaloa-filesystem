@@ -122,6 +122,23 @@ final class CsvReader
     }
 
     /**
+     * @return array|bool
+     */
+    public function fetch()
+    {
+        $row = $this->getNextRow();
+
+        if (false === $row) {
+            // EOF
+            return false;
+        }
+
+        $row = $this->negotiateEncoding($row);
+
+        return $row;
+    }
+
+    /**
      * @param array $keys
      * @return array|bool
      */

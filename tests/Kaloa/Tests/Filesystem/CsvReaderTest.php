@@ -113,6 +113,25 @@ CSV;
         $expected[] = array('Col a' => 'value 2a', 'Col b' => 'value 2b');
 
         $this->assertSame($expected, $data);
+
+        // Test non-associative fetch method
+
+        $stream = fopen(__DIR__ . '/csv-files/custom-delimiters.csv', 'rb');
+        $reader = new CsvReader($stream, 'UTF-8', ':', '|');
+        $data = array();
+
+        while ($row = $reader->fetch()) {
+            $data[] = $row;
+        }
+
+        fclose($stream);
+
+        $expected = array();
+        $expected[] = array('Col a', 'Col b');
+        $expected[] = array('value 1a', 'value 1b');
+        $expected[] = array('value 2a', 'value 2b');
+
+        $this->assertSame($expected, $data);
     }
 
     /**
