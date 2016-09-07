@@ -60,7 +60,7 @@ If the file doesn't contain a row with keys, keys can be provided manually. The 
 $data = $csvReader->fetchAllAssoc(array('id', 'title', 'date_added'));
 ~~~
 
-There's also a streaming mode available.
+There’s also a streaming mode available.
 
 ~~~ php
 while ($row = $csvReader->fetch()) {
@@ -98,7 +98,7 @@ $csvReader = new CsvReader($stream, 'UTF-8', ':', '|', '%');
 
 #### Further notes
 
-- The `fetch` and `fetchAll` methods accept rows with varying numbers of fields. The `fetchAssoc` and `fetchAllAssoc` methods will throw an exception if the number of fields in a row differs from the number of keys.
+- The `fetch` and `fetchAll` methods accept rows with varying numbers of fields in the same stream. The `fetchAssoc` and `fetchAllAssoc` methods will throw an exception if the number of fields in a row differs from the number of keys.
 - It is not possible to change the names of the keys while iterating over input data with `fetchAssoc`. The reader always uses the keys from the first call to `fetchAssoc`.
 - Calls to different `fetch*` methods must not be mixed. Currently, the code doesn’t prevent this, but it’s very likely that such functionality will be added in a future release.  
 
