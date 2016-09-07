@@ -10,7 +10,6 @@
 namespace Kaloa\Filesystem;
 
 use Exception;
-use LogicException;
 
 /**
  *
