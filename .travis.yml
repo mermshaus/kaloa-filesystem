@@ -17,7 +17,7 @@ install:
   - travis_retry composer install --no-interaction --prefer-source
 
 script:
-  - if [[ "$COLLECT_COVERAGE" == "true" ]]; then phpunit --coverage-text --coverage-clover=coverage.clover; else phpunit; fi
+  - if [[ "$COLLECT_COVERAGE" == "true" ]]; then phpunit --coverage-clover=travis-tmp/coverage.clover; else phpunit; fi
 
 after_script:
-  - if [[ "$COLLECT_COVERAGE" == "true" ]]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+  - if [[ "$COLLECT_COVERAGE" == "true" ]]; then wget -O travis-tmp/ocular.phar https://scrutinizer-ci.com/ocular.phar && php travis-tmp/ocular.phar code-coverage:upload --format=php-clover travis-tmp/coverage.clover; fi
