@@ -31,15 +31,17 @@ The following PHP versions are supported:
 
 ## Testing
 
+(Tools are not included in this package.)
+
 ~~~ bash
-$ ./vendor/bin/phpunit
+$ phpunit
 ~~~
 
 Further quality assurance:
 
 ~~~ bash
-$ ./vendor/bin/phpcs --standard=PSR2 ./src
-$ ./vendor/bin/phpmd ./src text codesize,design,naming
+$ phpcs --standard=PSR2 ./src
+$ phpmd ./src text codesize,design,naming
 ~~~
 
 
