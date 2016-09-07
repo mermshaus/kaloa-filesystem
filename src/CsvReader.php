@@ -103,7 +103,11 @@ final class CsvReader
 
         $data = array();
 
+        $rowCounter = 0;
+
         while ($row = $this->getNextRow()) {
+            $rowCounter++;
+
             if ($headerFlag) {
                 $headerFlag = false;
                 $keys = $this->negotiateEncoding($row);
@@ -112,7 +116,10 @@ final class CsvReader
             }
 
             if (count($row) !== $keysCount) {
-                throw new Exception('Malformed line in CSV input');
+                throw new Exception(sprintf(
+                    'Malformed row (%s) in CSV input',
+                    $rowCounter
+                ));
             }
 
             $data[] = array_combine($keys, $this->negotiateEncoding($row));
@@ -128,12 +135,9 @@ final class CsvReader
     {
         $row = $this->getNextRow();
 
-        if (false === $row) {
-            // EOF
-            return false;
+        if (is_array($row)) {
+            $row = $this->negotiateEncoding($row);
         }
-
-        $row = $this->negotiateEncoding($row);
 
         return $row;
     }
@@ -141,6 +145,7 @@ final class CsvReader
     /**
      * @param array $keys
      * @return array|bool
+     * @throws Exception
      */
     public function fetchAssoc(array $keys = array())
     {
@@ -165,6 +170,13 @@ final class CsvReader
 
         $this->fetchRowLineCounter++;
 
+        if (count($row) !== count($this->fetchRowKeys)) {
+            throw new Exception(sprintf(
+                'Malformed row (%s) in CSV input',
+                $this->fetchRowLineCounter
+            ));
+        }
+
         return array_combine($this->fetchRowKeys, $this->negotiateEncoding($row));
     }
 
@@ -176,10 +188,6 @@ final class CsvReader
         $this->assertStream();
 
         $tmp = fgetcsv($this->stream, 0, $this->delimiter, $this->enclosure, $this->escape);
-
-        if ($tmp !== false && !is_array($tmp)) {
-            throw new LogicException('Unexpected error in fgetcsv call');
-        }
 
         return $tmp;
     }

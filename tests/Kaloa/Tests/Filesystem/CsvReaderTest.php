@@ -73,7 +73,6 @@ CSV;
         $expected = array();
 
         $this->assertSame($expected, $data);
-
     }
 
     /**
@@ -89,6 +88,23 @@ CSV;
         $expected = array();
         $expected[] = array('value 1a', 'value 1b');
         $expected[] = array('value 2a', 'value 2b');
+
+        $this->assertSame($expected, $data);
+    }
+
+    /**
+     *
+     */
+    public function testCanReadWithCustomHeaders()
+    {
+        $stream = fopen(__DIR__ . '/csv-files/no-headers.csv', 'rb');
+        $reader = new CsvReader($stream);
+        $data = $reader->fetchAllAssoc(array('Col a', 'Col b'));
+        fclose($stream);
+
+        $expected = array();
+        $expected[] = array('Col a' => 'value 1a', 'Col b' => 'value 1b');
+        $expected[] = array('Col a' => 'value 2a', 'Col b' => 'value 2b');
 
         $this->assertSame($expected, $data);
     }
@@ -202,15 +218,65 @@ CSV;
     /**
      *
      */
+    public function testThrowsExceptionOnMalformedLine()
+    {
+        $csvData = <<<'CSV'
+"Col a","Col b"
+"value 1a"
+"value 2a","value 2b"
+CSV;
+
+        $dataUri = $this->convertToDataUri($csvData);
+
+        $stream = fopen($dataUri, 'rb');
+
+        $reader = new CsvReader($stream);
+
+        $this->setExpectedException('Exception', 'Malformed row (2) in CSV input');
+
+        $reader->fetchAllAssoc();
+
+        fclose($stream);
+    }
+
+    /**
+     *
+     */
+    public function testThrowsExceptionOnMalformedLineInStreamingMode()
+    {
+        $csvData = <<<'CSV'
+"Col a","Col b"
+"value 1a"
+"value 2a","value 2b"
+CSV;
+
+        $dataUri = $this->convertToDataUri($csvData);
+
+        $stream = fopen($dataUri, 'rb');
+
+        $reader = new CsvReader($stream);
+
+        $this->setExpectedException('Exception', 'Malformed row (2) in CSV input');
+
+        while ($row = $reader->fetchAssoc()) {
+            // nop
+        }
+
+        fclose($stream);
+    }
+
+    /**
+     *
+     */
     public function testCanConvertCharset()
     {
         $csvData = <<<CSV
-"Thomas Müller","FC Bayern München",Sturm
-"Julian Weigl","Borussia Dortmund",Mittelfeld
-"Serge Gnabry","Werder Bremen",Sturm
-"Gianluigi Buffon",Juventus,Tor
-"Shkodran Mustafi",Arsenal,Abwehr
-"Mario Gómez","VfL Wolfsburg",Sturm
+"Thomas Müller","FC Bayern München",Striker
+"Julian Weigl","Borussia Dortmund",Midfield
+"Serge Gnabry","Werder Bremen",Striker
+"Gianluigi Buffon",Juventus,Keeper
+"Shkodran Mustafi",Arsenal,Defender
+"Mario Gómez","VfL Wolfsburg",Striker
 CSV;
 
         $csvData = mb_convert_encoding($csvData, 'ISO-8859-1', 'UTF-8');
@@ -232,10 +298,10 @@ CSV;
 
         fclose($stream);
 
-        $expected = array('name' => 'Thomas Müller', 'team' => 'FC Bayern München', 'position' => 'Sturm');
+        $expected = array('name' => 'Thomas Müller', 'team' => 'FC Bayern München', 'position' => 'Striker');
         $this->assertSame($expected, $data[0]);
 
-        $expected = array('name' => 'Mario Gómez', 'team' => 'VfL Wolfsburg', 'position' => 'Sturm');
+        $expected = array('name' => 'Mario Gómez', 'team' => 'VfL Wolfsburg', 'position' => 'Striker');
         $this->assertSame($expected, $data[5]);
     }
 
@@ -257,7 +323,7 @@ CSV;
     }
 
     /**
-     * @param $string
+     * @param string $string
      * @return string
      */
     private function convertToDataUri($string)
