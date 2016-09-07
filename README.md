@@ -120,6 +120,18 @@ $stream = fopen($dataUri, 'rb');
 $reader = new CsvReader($stream);
 ~~~
 
+### PathHelper
+
+#### Usage
+
+~~~ php
+use Kaloa\Filesystem\PathHelper;
+
+$pathHelper = new PathHelper();
+
+$pathHelper->normalize('./dir1/dir2/dir3/dir4/../../../'); // "dir1"
+~~~
+
 
 ## Testing
 

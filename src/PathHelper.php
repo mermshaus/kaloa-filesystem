@@ -18,23 +18,53 @@ final class PathHelper
 {
     /**
      *
-     * @param string $path
-     * @return string
-     * @throws InvalidArgumentException
      */
-    public function normalizeDirectorySeparators($path)
+    const SYSTEM_AUTODETECT = 0x0;
+
+    /**
+     *
+     */
+    const SYSTEM_UNIX = 0x1;
+
+    /**
+     *
+     */
+    const SYSTEM_WINDOWS = 0x2;
+
+    /**
+     * @var bool
+     */
+    private $isWindowsSystem;
+
+    /**
+     * @param int $system
+     */
+    public function __construct($system = self::SYSTEM_AUTODETECT)
     {
-        if (!is_string($path)) {
-            throw new InvalidArgumentException('$path must be of type string');
+        if (!in_array(
+            $system,
+            array(
+                self::SYSTEM_AUTODETECT,
+                self::SYSTEM_UNIX,
+                self::SYSTEM_WINDOWS
+            ),
+            true
+        )) {
+            throw new InvalidArgumentException(sprintf(
+                '$system must be on of the %s::SYSTEM_* constants',
+                self::CLASS
+            ));
         }
 
-        $directorySeparatorInverse = (DIRECTORY_SEPARATOR === '/') ? '\\' : '/';
+        $tmp = false;
 
-        return str_replace(
-            $directorySeparatorInverse,
-            DIRECTORY_SEPARATOR,
-            $path
-        );
+        if (self::SYSTEM_AUTODETECT === $system) {
+            $tmp = ('win' === strtolower(substr(PHP_OS, 0, 3)));
+        } elseif (self::SYSTEM_WINDOWS === $system) {
+            $tmp = true;
+        }
+
+        $this->isWindowsSystem = $tmp;
     }
 
     /**
@@ -51,9 +81,24 @@ final class PathHelper
 
         $path = trim($path);
 
-        $path = $this->normalizeDirectorySeparators($path);
+        $path = str_replace('\\', '/', $path);
 
-        $isAbsolutePath = (substr($path, 0, 1) === '/');
+        $isAbsolutePath = false;
+        $windowsDriveLetter = '';
+
+        if ($this->isWindowsSystem) {
+            $matches = array();
+            if (1 === preg_match('~\A([A-Za-z]):(\z|/.*)~', $path, $matches)) {
+                $isAbsolutePath = true;
+                $windowsDriveLetter = strtolower($matches[1]);
+                $path = $matches[2];
+            } elseif (substr($path, 0, 1) === '/') {
+                $isAbsolutePath = true;
+                $windowsDriveLetter = 'c';
+            }
+        } else {
+            $isAbsolutePath = (substr($path, 0, 1) === '/');
+        }
 
         $components = explode('/', $path);
 
@@ -84,6 +129,10 @@ final class PathHelper
         }
 
         $newPath = ($isAbsolutePath ? '/' : '') . implode('/', $newComponents);
+
+        if ($isAbsolutePath && $this->isWindowsSystem) {
+            $newPath = $windowsDriveLetter . ':' . $newPath;
+        }
 
         if ($newPath === '') {
             $newPath = '.';
