@@ -2,7 +2,7 @@
     "name": "kaloa/filesystem",
     "type": "library",
     "description": "Useful classes for working with the filesystem",
-    "keywords": ["filesystem"],
+    "keywords": ["csv", "filesystem"],
     "homepage": "http://kaloa.ermshaus.org/",
     "license": "MIT",
     "authors": [
