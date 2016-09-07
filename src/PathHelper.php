@@ -52,7 +52,7 @@ final class PathHelper
         )) {
             throw new InvalidArgumentException(sprintf(
                 '$system must be on of the %s::SYSTEM_* constants',
-                self::CLASS
+                get_class($this)
             ));
         }
 
