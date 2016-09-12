@@ -1,7 +1,7 @@
 {
     "name": "kaloa/filesystem",
     "type": "library",
-    "description": "Utility classes for tasks related to the filesystem",
+    "description": "Utility classes for tasks related to the filesystem.",
     "keywords": ["csv", "filesystem", "filter", "iterator", "normalization", "paths"],
     "homepage": "http://kaloa.ermshaus.org/",
     "license": "MIT",

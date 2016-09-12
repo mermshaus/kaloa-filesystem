@@ -33,6 +33,10 @@ The following PHP versions are supported:
 
 ### CsvReader
 
+#### Goals
+
+- Provide an interface to read CSV data from streams into associative arrays. 
+
 #### Usage
 
 Read all CSV rows from a stream into a numeric array. This is also a general usage example.
@@ -121,6 +125,14 @@ $reader = new CsvReader($stream);
 ~~~
 
 ### PathHelper
+
+#### Goals
+
+- “`realpath` for non-existing files” is the general idea.
+- Resolve relative components (`.` and `..`) of “virtual” filesystem paths which don’t point to existing files or directories.
+- Generate a normalized representation for such paths.
+- The code has to be able to work with both absolute and relative paths on multiple systems.
+- It has to be able to deal with absolute paths on Windows. (A path like `c:/foo` is to be considered to be absolute on Windows but relative on Linux. `c:` is a valid filename on Linux.)
 
 #### Usage
 
