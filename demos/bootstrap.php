@@ -1,8 +1,5 @@
 <?php
 
-error_reporting(-1);
-ini_set('display_errors', 1);
-
 if ((!$loader = @include __DIR__.'/../../../autoload.php')
         && (!$loader = @include __DIR__.'/../vendor/autoload.php')
 ) {
