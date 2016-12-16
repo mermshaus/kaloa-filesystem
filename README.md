@@ -25,7 +25,8 @@ The following PHP versions are supported:
 - PHP 5.4
 - PHP 5.5
 - PHP 5.6
-- PHP 7
+- PHP 7.0
+- PHP 7.1
 - HHVM
 
 
@@ -35,7 +36,7 @@ The following PHP versions are supported:
 
 #### Goals
 
-- Provide an interface to read CSV data from streams into associative arrays. 
+- Provide an interface to read CSV data from streams into associative arrays.
 
 #### Usage
 
@@ -104,7 +105,7 @@ $csvReader = new CsvReader($stream, 'UTF-8', ':', '|', '%');
 
 - The `fetch` and `fetchAll` methods accept rows with varying numbers of fields in the same stream. The `fetchAssoc` and `fetchAllAssoc` methods will throw an exception if the number of fields in a row differs from the number of keys.
 - It is not possible to change the names of the keys while iterating over input data with `fetchAssoc`. The reader always uses the keys from the first call to `fetchAssoc`.
-- Calls to different `fetch*` methods must not be mixed. Currently, the code doesn’t prevent this, but it’s very likely that such functionality will be added in a future release.  
+- Calls to different `fetch*` methods must not be mixed. Currently, the code doesn’t prevent this, but it’s very likely that such functionality will be added in a future release.
 
 #### Recipes
 
@@ -132,7 +133,7 @@ $reader = new CsvReader($stream);
 - Resolve relative components (`.` and `..`) of “virtual” filesystem paths which don’t point to existing files or directories.
 - Generate a normalized representation for such paths.
 - The code has to be able to work with both absolute and relative paths on multiple systems.
-- It has to be able to deal with absolute paths on Windows. (A path like `c:/foo` is to be considered to be absolute on Windows but relative on Linux. `c:` is a valid filename on Linux.)
+- It has to be able to deal with absolute paths on Windows. (A path like `c:\foo` is to be considered absolute on Windows but relative on Linux. `c:\foo` is a valid filename on Linux.)
 
 #### Usage
 
