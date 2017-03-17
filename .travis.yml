@@ -16,9 +16,10 @@ matrix:
 install:
   - travis_retry composer self-update
   - travis_retry composer install --no-interaction --prefer-source
+  - travis_retry composer require phpunit/phpunit ^4.8
 
 script:
-  - if [[ "$COLLECT_COVERAGE" == "true" ]]; then phpunit --coverage-clover=travis-tmp/coverage.clover; else phpunit; fi
+  - if [[ "$COLLECT_COVERAGE" == "true" ]]; then ./vendor/bin/phpunit --coverage-clover=travis-tmp/coverage.clover; else ./vendor/bin/phpunit; fi
 
 after_script:
   - if [[ "$COLLECT_COVERAGE" == "true" ]]; then wget -O travis-tmp/ocular.phar https://scrutinizer-ci.com/ocular.phar && php travis-tmp/ocular.phar code-coverage:upload --format=php-clover travis-tmp/coverage.clover; fi
