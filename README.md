@@ -45,7 +45,7 @@ Read all CSV rows from a stream into a numeric array. This is also a general usa
 ~~~ php
 use Kaloa\Filesystem\CsvReader;
 
-$stream = fopen(__DIR__ . '/file.csv');
+$stream = fopen(__DIR__ . '/file.csv', 'rb');
 
 $csvReader = new CsvReader($stream);
 $data = $csvReader->fetchAll();
