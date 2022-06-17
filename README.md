@@ -1,13 +1,5 @@
 # kaloa/filesystem
 
-[![Latest Version](https://img.shields.io/github/release/mermshaus/kaloa-filesystem.svg?style=flat-square)](https://github.com/mermshaus/kaloa-filesystem/releases)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/mermshaus/kaloa-filesystem/blob/master/LICENSE)
-[![Build Status](https://img.shields.io/travis/mermshaus/kaloa-filesystem/master.svg?style=flat-square)](https://travis-ci.org/mermshaus/kaloa-filesystem)
-[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/mermshaus/kaloa-filesystem.svg?style=flat-square)](https://scrutinizer-ci.com/g/mermshaus/kaloa-filesystem/code-structure)
-[![Quality Score](https://img.shields.io/scrutinizer/g/mermshaus/kaloa-filesystem.svg?style=flat-square)](https://scrutinizer-ci.com/g/mermshaus/kaloa-filesystem)
-[![Total Downloads](https://img.shields.io/packagist/dt/mermshaus/kaloa-filesystem.svg?style=flat-square)](https://packagist.org/packages/kaloa/filesystem)
-
-
 ## Install
 
 Via Composer:

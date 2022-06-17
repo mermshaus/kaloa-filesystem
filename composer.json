@@ -3,17 +3,21 @@
     "type": "library",
     "description": "Utility classes for tasks related to the filesystem.",
     "keywords": ["csv", "filesystem", "filter", "iterator", "normalization", "paths"],
-    "homepage": "http://kaloa.ermshaus.org/",
     "license": "MIT",
     "authors": [
         {
             "name": "Marc Ermshaus",
             "email": "marc@ermshaus.org",
-            "homepage": "http://www.ermshaus.org/"
+            "homepage": "https://www.ermshaus.org/"
         }
     ],
     "require": {
         "php": ">=5.3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0",
+        "squizlabs/php_codesniffer": "^2.8.1",
+        "phpmd/phpmd": "~2.0"
     },
     "autoload": {
         "psr-4": {
